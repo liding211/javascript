@@ -1,0 +1,32 @@
+input, textarea{
+    border: solid 1px;
+    border-color: activecaption;
+}
+input:focus, textarea:focus{
+    border: solid 1px;
+    border-color: tomato;
+}
+
+.login_field {
+    margin-top: 4px;
+}
+
+td:nth-child(odd) {
+    vertical-align: top;
+}
+
+textarea {
+    width: 150px;
+    height: 100px;
+}
+
+#editeble {
+    padding: 5px;
+    border: solid 1px; 
+    border-color: activecaption;
+}
+
+.paragraph > textarea{
+    width: 800px;
+    height: 100px;
+}

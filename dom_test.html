@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Page Title</title>
+        <link rel="profile" href="http://gmpg.org/xfn/11"/>
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+        <script type="text/javascript">
+            
+            var MAX_CHECKBOXES_SELECTED = 2
+            var selected_checkboxes_number = 0
+            
+            $(document).ready(
+                function(){
+                    //make text editeble
+                    $('.paragraph').dblclick(
+                        function(){
+                            var html_content = $(this).html();
+                            $(this).html('<textarea>' + html_content + '</textarea>');
+                            var current_textarea = $(".paragraph > textarea").focus();
+                            $(current_textarea).blur(
+                                function(){
+                                    $('.paragraph > textarea').parent().html(this.value)
+                                }
+                            )
+                        }
+                    )
+                    
+                    //check form event
+                    var form = $("#registration_form")
+                    
+                    form.find("th img").click(hideOrShowForm)
+                        
+                    //add new login field
+                    $("#add_new_login_field").click(
+                        function(){
+                            var last_login_field = $(".login_field").last();
+                            $('<img class="delete_login_field" src="uploads/minus.png" title="Delete field" />' +
+                                '<br /><input class="login_field" type="text" name="login[]">')
+                            .insertAfter(last_login_field)
+                            
+                            //delete login field
+                            $("img.delete_login_field").click(
+                                function(){
+                                    $(this).prev().remove();
+                                    if($(this).prev().remove().length == 0){
+                                        $(this).next().remove();
+                                    }
+                                    $(this).remove();
+                                }
+                            )
+                        }
+                    )
+                        
+                    //resize textarea when user is focused on they
+                    $('textarea').focus(
+                        function(){
+                            $(this).animate({
+                                'width': '500px',
+                                'height': '300px'
+                            })
+                        }
+                    )
+                    $('textarea').blur(
+                        function(){
+                            $(this).animate({
+                                'width': '150px',
+                                'height': '100px'
+                            })
+                        }
+                    )
+                        
+                    
+                    //deactivate the checkboxes after selected sex 
+                    $('input[name="sex"]').click(
+                        function(){
+                            //reset all selected checkboxes
+                            $('input[type="checkbox"]')
+                                .prop({disabled : false})
+                                .prop({checked : false})
+                            selected_checkboxes_number = 0    
+                                
+                            if(this.value == 'Male'){
+                                var disable_checkbox = new Array("fitness", "tennis")
+                            }else if(this.value == 'Female'){
+                                var disable_checkbox = new Array("fishing", "football")
+                            }
+                            for(var key in disable_checkbox){
+                                $("input[value=" + disable_checkbox[key] + "]")
+                                .prop({disabled : true})
+                            }
+                        }
+                    )
+                    
+                    //check max selected checkboxes
+                    $('input[type="checkbox"]').click(
+                        function(){
+                            if($(this).prop("checked")){
+                                selected_checkboxes_number++
+                            }else{
+                                selected_checkboxes_number--
+                            }
+                            
+                            if(selected_checkboxes_number > MAX_CHECKBOXES_SELECTED){
+                                $(this).attr( 'checked' , false)
+                                selected_checkboxes_number--
+                            }
+                        }
+                    )
+                    
+                    function hideOrShowForm(image){
+                        //change image src
+                        console.log(image.currentTarget.src);
+                        if(image.currentTarget.src.match('uploads/minus.png') != null){
+                            image.currentTarget.src = 'uploads/plus.png'
+                        }else{
+                            image.currentTarget.src = 'uploads/minus.png'
+                        }
+                        
+                        if(form.find("tr").children("td").css('display') == 'none'){
+                            form.find("tr").children("td").show(500)
+                        }else{
+                            form.find("tr").children("td").hide(500)
+                        }
+                    }
+                }
+            )
+        </script>
+    </head>
+    <body>
+        <div id="content">
+            <header></header>
+            <article id="fish">
+                <h1>Lorem ipsum</h1>
+                <p class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim orci et est ornare pellentesque. Aenean cursus fringilla lectus, at sagittis ipsum vulputate id.<br /> Maecenas blandit nulla a velit aliquam tincidunt. Morbi varius pharetra erat non tempus. Mauris interdum malesuada nisi quis consectetur. In ac fermentum metus. Curabitur porttitor viverra mauris, a accumsan ligula rhoncus ut. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam eget massa pulvinar lacinia.</p>
+                <p class="paragraph">In non ligula in orci ullamcorper lacinia sed ac lorem. Phasellus luctus mauris vel urna commodo sed gravida mi consectetur. Vestibulum id diam nisl, vel mattis odio. Vestibulum venenatis, leo ut rhoncus ullamcorper, turpis magna adipiscing tortor, a eleifend libero odio eu mauris. Mauris convallis dictum enim, consequat vehicula massa semper nec. Suspendisse potenti. Suspendisse luctus imperdiet dictum. Suspendisse vulputate cursus ornare. Donec at nunc orci, id egestas tellus. Pellentesque consectetur odio id dui vehicula sit amet pretium lacus pulvinar. Nullam in libero ante, eget pretium neque. Quisque augue nunc, elementum vel pretium sed, interdum in nulla. Aliquam vehicula faucibus quam vitae hendrerit.</p>
+                <p class="paragraph">Nulla tincidunt auctor turpis, non vestibulum ante euismod sit amet. Donec rhoncus ipsum sed leo luctus commodo vulputate arcu dignissim. Donec a urna ipsum, et tempor tellus. Nulla id leo nibh, quis semper mauris. Vestibulum odio diam, lobortis eu blandit vel, scelerisque at mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut arcu justo, pretium ac consequat quis, mattis convallis lorem. </p>
+            </article>
+            <article id="test_form">
+                <form action="#" id="registration_form">
+                    <table>
+                        <tr>
+                            <th colspan="2">
+                                Registration form <img src="uploads/minus.png" />
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Name:
+                            </td>
+                            <td>
+                                <input type="text" name="name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Surname:
+                            </td>
+                            <td>
+                                <input type="text" name="surname">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Your login:
+                            </td>
+                            <td>
+                                <input class="login_field" type="text" name="login[]">  
+                                <img id="add_new_login_field" src="uploads/plus.png" title="Add new field" />
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Your slogan:
+                            </td>
+                            <td>
+                                <textarea name="slogan"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Sex:
+                            </td>
+                            <td>
+                                <input type="radio" name="sex" value="Male" > Male <br />
+                                <input type="radio" name="sex" value="Female"> Female
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Hobbies (2 max):
+                            </td>
+                            <td>
+                                <input type="checkbox" name="hobby[]" value="football" > Football <br />
+                                <input type="checkbox" name="hobby[]" value="fishing" > Fishing <br />
+                                <input type="checkbox" name="hobby[]" value="fitness"> Fitness <br />
+                                <input type="checkbox" name="hobby[]" value="basketball"> Basketball <br />
+                                <input type="checkbox" name="hobby[]" value="tennis"> Tennis 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Favorite countres:
+                            </td>
+                            <td>
+                                <select name="countrys[]" multiple>
+                                    <optgroup label="CIS">
+                                        <option value="ua">Ukraine</option>
+                                        <option value="ru">Russia</option>
+                                        <option value="by">Belorussia</option>
+                                    </optgroup>
+                                    <optgroup label="Europe">
+                                        <option value="uk">Great Britain</option>
+                                        <option value="fr">France</option>
+                                        <option value="de">Germany</option>
+                                    </optgroup>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </article>
+            <footer></footer>
+        </div>
+    </body>
+</html>

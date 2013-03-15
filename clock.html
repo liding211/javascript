@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Page Title</title>
+        <link rel="profile" href="http://gmpg.org/xfn/11"/>
+        
+    </head>
+    <body onload="updateTime()">
+        <div id="content" class="wrapper box"></div>
+        <script type="text/javascript">
+            function getTime(){
+                var date = new Date();
+                var time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+                return time;
+            }
+            function updateTime(){
+                document.getElementById('content').innerHTML = getTime();
+            }
+            setInterval(updateTime, 1000);
+        </script>
+    </body>
+</html>
